@@ -5,14 +5,68 @@
 @import '_reset';
 @import '_type';
 
+@-webkit-keyframes fadeout /* Safari 和 Chrome */
+{
+  from {
+    z-index:1002;
+    display: block;
+    opacity:1;
+  }
+  99% {
+    z-index:1002;
+    opacity:0;
+    -webkit-transform:scale(1.3);
+  }
+  to {
+    z-index:1000;
+    display: none;
+    opacity:0;
+  }
+}
+
+@-webkit-keyframes zoomout /* Safari 和 Chrome */
+{
+  from {
+    -webkit-transform:scale(1);
+    opacity:1;
+  }
+  to {
+    -webkit-transform:scale(3);
+    opacity:0;
+  }
+}
+
+@-webkit-keyframes zcircle /* Safari 和 Chrome */
+{
+  from {
+    -webkit-transform:rotate(0deg);
+  }
+  to {
+    -webkit-transform:rotate(360deg);
+  }
+}
+
 
 .stage {
   z-index:1000;
   position: absolute;
   width:100%;
   height:100%;
-  background:url(/images/stage_bg.png) no-repeat center top;
+  background:url(/images/stage_bg.png) no-repeat center bottom;
   background-size: cover;
+  display: none;
+}
+.stage-show {
+  z-index:1001;
+  display: block;
+}
+
+.stage-out {
+  -webkit-transform-origin:center center;
+  -webkit-animation-name:fadeout;
+  -webkit-animation-duration:1s;
+  -webkit-animation-delay:0;
+  -webkit-animation-fill-mode: forwards;
 }
 
 .stage-login {
@@ -96,13 +150,63 @@
 
 .stage-scaning {
 
+  background-image: url(/images/scan_bg.png);
+
   .avatar {
-    background:rgba(0,0,0, 0.5);
-    width:.88rem;
-    height:.88rem;
+    z-index:900;
+    background:#fff;
+    width:1.7rem;
+    height:1.7rem;
+    border-radius: 1rem;
+    position: absolute;
+    bottom:2.83rem;
+    left:50%;
+    margin-left:-.87rem;
+    font-size: .4rem;
+    text-align:center;
+    line-height: 1.6rem;
+    color:#333;
   }
   .circle-light {
+    z-index:877;
+    background:none;
+    width:1.7rem;
+    height:1.7rem;
+    border-radius: 1rem;
+    position: absolute;
+    bottom:2.83rem;
+    left:50%;
+    margin-left:-.87rem;
+    font-size: .4rem;
+    text-align:center;
+    line-height: 1.6rem;
+    color:#fff;
+    box-shadow:0 0 0.2rem rgba(0,0,0,0.4);
+    -webkit-transform-origin:center center;
+    -webkit-animation-name:zoomout;
+    -webkit-animation-duration:2s;
+    -webkit-animation-delay:0;
+    -webkit-animation-iteration-count:infinite;
+  }
 
+  .scaning {
+    z-index:876;
+    position: absolute;
+    left:50%;
+    bottom:3.7rem;
+    margin-left: -6.86rem;
+    margin-bottom: -6.86rem;
+    width:13.73rem;
+    height:13.73rem;
+    opacity:0.3;
+    background: url(/images/scaning.png) no-repeat center center;
+    background-size: cover;
+    -webkit-transform-origin:center center;
+    -webkit-animation-name:zcircle;
+    -webkit-animation-duration:5s;
+    -webkit-animation-delay:0;
+    -webkit-animation-timing-function:linear;
+    -webkit-animation-iteration-count:infinite;
   }
 }
 
