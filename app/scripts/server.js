@@ -114,19 +114,26 @@ void function() {
     };
 }();
 
-// var t = window.player();
-// t.login('aaa', function() {
+// var p = window.player();
+
+// // 登录游戏，准备开始
+// p.login('aaa', function() {
 //     console.log('123');
 // });
 
-// // t.end({
-// //     score: [30, 20, 30]
-// // });
-
-// t.on('start', function(event, data) {
+// // 监听是否开始游戏
+// p.on('start', function(event, data) {
 //     console.log('start', data);
 // });
 
-// t.on('end', function(event, data) {
+// // 监听游戏是否结束
+// p.on('end', function(event, data) {
 //     console.log('end', data);
 // });
+
+// // 告知对方当前客户端已经结束游戏
+// p.end({
+//     // 每个的相似度等
+//     score: [30, 20, 30]
+// });
+
