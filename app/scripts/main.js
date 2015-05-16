@@ -1,2 +1,6 @@
-/* jshint devel:true */
-console.log('\'Allo \'Allo!');
+(function(){
+    $('body').on('click', '.start-btn', function(){
+
+    });
+});
+

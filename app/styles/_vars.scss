@@ -1,0 +1,58 @@
+// ----------------
+// 全局基础变量设置
+// 简写约定：bg = backgroud; btn = button;
+// ----------------
+
+// 颜色
+$brand-primary: #ffd600 !default;
+$brand-mt: #32b9aa !default;
+
+// 文字颜色 正文/链接/突出文本/标题/弱化文本
+$text-color: #666 !default;
+$text-color-highlight: #f60 !default;
+$text-color-link: $text-color-highlight !default;
+$text-color-title: #333 !default;
+$text-color-weaken: #999 !default;
+$text-color-weaken-2: #ccc !default;
+
+// 特殊颜色的文字
+$text-color-green: $brand-mt;
+$text-color-red: #e2574c;
+$text-color-yellow: #e0ad27;
+
+// 前景色
+$front-color: #fff !default;
+// 背景色
+$bg-color: #f4f4f4 !default;
+
+// 边框颜色
+$border-color: #d8d8d8 !default;
+
+// 按钮颜色
+$btn-bg-color: $brand-primary !default;
+$btn-text-color: #464646 !default;
+
+
+// root element（rem）大小，625%等于100px，1rem等于50px
+$rem-size: 312.5%;
+
+// 文字设置
+// 字体
+$font-family-base: "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+
+// 字号
+$font-size-base: .28rem !default; // 14px
+$font-size-large: $font-size-base * 1.25 !default; // ~18px
+$font-size-small: $font-size-base * 0.85 !default; // ~12px
+
+$font-size-h1: $font-size-base * 1.3 !default; // ~36px
+$font-size-h2: $font-size-base * 1.07 !default; // ~30px
+$font-size-h3: $font-size-base * 0.85 !default; // ~24px
+$font-size-h4: $font-size-base * 0.625 !default; // ~18px
+$font-size-h5: $font-size-base * .5 !default;
+$font-size-h6: $font-size-base * 0.425 !default; // ~12px
+
+// 行高
+$line-height-base: 1 !default; // 20/14
+// 行高计算值 用于margin, padding等
+$line-height-computed: $font-size-base * $line-height-base !default; // ~20px
