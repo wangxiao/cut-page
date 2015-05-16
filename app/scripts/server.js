@@ -23,7 +23,7 @@ var player = function() {
         attr: attr,
         login: function(name, callback) {
             var me = this;
-            attr.name = name;
+            me.attr.name = name;
             p.save(me.attr, {
                 success: function(object) {
                     callback && callback();
@@ -32,7 +32,7 @@ var player = function() {
         },
         match: function(callback) {
             var me = this;
-            var max = 5;
+            var max = 50;
             listAll(function(results) {
                 f(results);
             });
@@ -59,7 +59,7 @@ var player = function() {
 };
 
 // var t = player();
-// t.login('wangxiao', function() {
+// t.login('aaa', function() {
 //     t.match(function(data) {
 //         console.log(data);
 //         t.set({
