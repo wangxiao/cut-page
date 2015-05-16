@@ -8,9 +8,9 @@
             setTimeout(function(){
                 p.match(function(matchUser){
                     console.log(matchUser);
-                    alert('找到万家了，3秒后开始游戏!');
+                    //alert('找到万家了，3秒后开始游戏!');
                 })
-            }, 5000)
+            }, 2000)
         })
     });
 })();
