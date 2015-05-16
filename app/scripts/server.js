@@ -32,7 +32,7 @@ var player = function() {
         },
         match: function(callback) {
             var me = this;
-            var max = 5;
+            var max = 50;
             listAll(function(results) {
                 f(results);
             });
@@ -59,7 +59,7 @@ var player = function() {
 };
 
 // var t = player();
-// t.login('ttt', function() {
+// t.login('aaa', function() {
 //     t.match(function(data) {
 //         console.log(data);
 //         t.set({
