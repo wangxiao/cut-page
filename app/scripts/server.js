@@ -53,7 +53,7 @@ var player = function() {
                 success: function(object) {
                     callback && callback();
                 }
-            });            
+            });
         }
     }
 };
