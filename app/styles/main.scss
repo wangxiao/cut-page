@@ -15,7 +15,7 @@
   99% {
     z-index:1002;
     opacity:0;
-    -webkit-transform:scale(1.1);
+    -webkit-transform:scale(1);
   }
   to {
     z-index:1000;
@@ -49,7 +49,23 @@
 @-webkit-keyframes scaleout
 {
   from {
+    opacity:1;
     -webkit-transform:scale(1);
+  }
+  to {
+    opacity:0;
+    -webkit-transform:scale(0.1);
+  }
+}
+
+@-webkit-keyframes zoomandout
+{
+  from {
+    opacity:1;
+    -webkit-transform:scale(1);
+  }
+  30% {
+    -webkit-transform:scale(1.1);
   }
   to {
     opacity:0;
@@ -316,7 +332,79 @@
     height:1.56rem;
     background: url(/images/battle_header.png) no-repeat center center;
     background-size: cover;
+
+    .you {
+      position: absolute;
+      left:0;
+      top:0;
+      width:1.18rem;
+      height:1.50rem;
+      color:#333;
+      line-height:1.5rem;
+      text-align: center;
+    }
+    .he {
+      position: absolute;
+      right:0;
+      top:0;
+      width:1.18rem;
+      height:1.50rem;
+      color:#333;
+      text-align: center;
+      line-height:1.5rem;
+    }
+  }
+
+  .ready-out {
+    -webkit-transform-origin:center center;
+    -webkit-animation-name:zoomandout;
+    -webkit-animation-duration:.6s;
+    -webkit-animation-delay:0.3s;
+    -webkit-animation-fill-mode: forwards;
+  }
+  .go-out {
+    -webkit-transform-origin:center center;
+    -webkit-animation-name:zoomandout;
+    -webkit-animation-duration:0.6s;
+    -webkit-animation-delay:1.5s;
+    -webkit-animation-fill-mode: forwards;
+  }
+
+  .ready {
+    z-index:902;
+    position: absolute;
+    left:50%;
+    top:50%;
+    width:3.33rem;
+    height:1.34rem;
+    margin-left: -1.66rem;
+    margin-top:-0.67rem;
+    background: url(/images/ready.png) no-repeat center center;
+    background-size: cover;
+    opacity: 0;
+  }
+  .go {
+    z-index:901;
+    position: absolute;
+    left:50%;
+    top:50%;
+    width:1.87rem;
+    height:1.12rem;
+    margin-left: -.93rem;
+    margin-top:-0.56rem;
+    background: url(/images/go.png) no-repeat center center;
+    background-size: cover;
     opacity:0;
+  }
+
+  .battle-container {
+    z-index:900;
+    background:#ff0000;
+    position: absolute;
+    left:.2rem;
+    right:.2rem;
+    bottom:.2rem;
+    top:2.4rem;
   }
 }
 
