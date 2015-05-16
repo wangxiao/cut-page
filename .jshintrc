@@ -16,6 +16,9 @@
   "strict": false,
   "jquery": true,
   "globals": {
-    "angular": true
+    "angular": true,
+    "AV": true,
+    "alert": true,
+    "console": true
   }
 }
