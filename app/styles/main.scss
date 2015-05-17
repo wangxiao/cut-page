@@ -96,7 +96,11 @@
 }
 
 
-
+body {
+  width:100%;
+  height:100%;
+  overflow:hidden;
+}
 
 .stage {
   z-index:1000;
@@ -239,6 +243,19 @@
     -webkit-animation-duration:2s;
     -webkit-animation-delay:0;
     -webkit-animation-iteration-count:infinite;
+  }
+
+  .scan-circles {
+    z-index:874;
+    position: absolute;
+    left:50%;
+    bottom:3.7rem;
+    margin-left: -6.86rem;
+    margin-bottom: -6.86rem;
+    width:13.73rem;
+    height:13.73rem;
+    background: url(/images/scan_circle_bg.png) no-repeat center center;
+    background-size: cover;
   }
 
   .scaning {

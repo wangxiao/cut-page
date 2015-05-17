@@ -47,6 +47,13 @@
 
                     self.shape = shape;
 
+                    $('.ready').css({
+                        display: 'block'
+                    });
+                    $('.go').css({
+                        display: 'block'
+                    });
+
                     $('.ready').addClass('ready-out');
                     $('.go').addClass('go-out');
 
@@ -57,6 +64,13 @@
                         paper.render(shape);
                         self.paper = paper;
                         self.initCountDownTip(2);
+
+                        $('.ready').css({
+                            display: 'none'
+                        });
+                        $('.go').css({
+                            display: 'none'
+                        });
                     }, 1800)
                 },
                 begin: function(){
@@ -148,8 +162,7 @@
                     var nickname = $('.nickname').val();
 
                     if(/^(\s)?$/.test(nickname)) {
-                        alert('请输入昵称!');
-                        return;
+                        nickname = 'U' + Math.floor(Math.random()*1000%61);
                     }
                     console.log('nickname', nickname);
                     self.nickname = nickname;
