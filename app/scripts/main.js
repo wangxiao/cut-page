@@ -125,7 +125,7 @@
                     count = count || 10;
                     $('.action-tip').removeClass('tip-hide').addClass('tip-show');
                     function _countdown(){
-                        
+
                         $('.action-tip').html('<b>'+count+'</b><br />观察图案'+ options.observeTime +'秒钟并记住他');
                         count--;
 
@@ -229,7 +229,7 @@
                 if(myscores > pkerscore) {
                     $('.left').addClass('winner');
                     $('.win').addClass('win-in');
-                } 
+                }
                 if(myscores < pkerscore) {
                     $('.right').addClass('winner');
                     $('.lose').addClass('lose-in');
@@ -262,7 +262,7 @@
                 //     var shape = user.shape;
 
                 //     console.log(maps, score, user. shape);
-                // }); 
+                // });
             },
 
             _checkMatchUser: function(){
@@ -323,12 +323,12 @@
             initGame: function(){
 
                 var levels = this.levels;
-                
+
                 var _currentLevel = 0;
                 function _initLevel(){
                     level.init(levels[_currentLevel], {
                         observeTime: 3,
-                        playTime: 10
+                        playTime: 30
                     });
                 }
 
@@ -397,8 +397,8 @@
 
                             $('body').trigger('game.end',{levels:levelResult});
                         }
-                        
-                        
+
+
                     }
                 });
 
@@ -406,12 +406,12 @@
             }
         };
 
-        
+
     })();
 
     game.init();
 
-    
+
 
 })();
 

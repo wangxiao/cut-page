@@ -874,7 +874,7 @@
      * @param {Array} vertex 多边形端点集
      * @param {string} color 多边形填充色
      */
-    function polygonDrop(vertex, color) {
+    function polygonDrop(vertex, color, container) {
         //绘制多边形
         var canvas = document.createElement("canvas");
         var minX = Infinity;
@@ -898,6 +898,9 @@
         paperWrap.className += 'paper-wrap ';
         paperWrap.className += 'fall ';
         var body = document.getElementsByTagName('body')[0];
+        if (container) {
+            body = container;
+        }
         var rect = document.body.getBoundingClientRect();
         var top = rect.top + minY;
         var left = rect.left + minX;
@@ -926,6 +929,9 @@
             paperWrap.appendChild(outerWrap);
         }
         body.appendChild(paperWrap);
+        setTimeout(function () {
+            body.removeChild(paperWrap);
+        }, 2800);
     }
     exports.polygonDrop = polygonDrop;
     /**
@@ -1506,7 +1512,7 @@
             if (!ok) {
                 return;
             }
-            polygonDrop(paper.getCutPolygon(), options.fill || 'none');
+            polygonDrop(paper.getCutPolygon(), options.fill || 'none', container);
             doChange();
         }
         container.addEventListener('touchmove', mouseMoveHandler);
