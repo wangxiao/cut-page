@@ -138,8 +138,9 @@
             },
 
             reset: function(){
+                var self = this;
                 stage.switchTo('scaning');
-                self._checkMatchUser();
+                game._checkMatchUser();
             },
             _initEvents: function(){
                 var self = this;
@@ -157,7 +158,7 @@
                     stage.switchTo('scaning');
 
                     setTimeout(function(){
-                        self._checkMatchUser();
+                        game._checkMatchUser();
                     }, 2000);
                 });
 
@@ -283,7 +284,7 @@
                 function _initLevel(){
                     level.init(levels[_currentLevel], {
                         observeTime: 3,
-                        playTime: 6
+                        playTime: 30
                     });
                 }
 
@@ -334,6 +335,6 @@
     })();
 
     game.init();
-    
+
 })();
 
