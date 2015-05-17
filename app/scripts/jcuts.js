@@ -761,11 +761,10 @@
      *
      * @param {Array} polygon 基础多边线 // [[x, y], [x1, y1], ...]
      * @param {number} edges 边数 // 5
-     * @param {number} x 中心点
-     * @param {number} y 中心点
+     * @param {number} center 中心点
      * @return {Array} 选择和映射后的多边形数组 [[[x, y], [x1, y1], ...], [[x, y], [x1, y1], ...] ...]
      */
-    function getCutPolygons(edges, x, y, polygon) {
+    function getCutPolygons(edges, center, polygon) {
         //计算与之对称的多边形的端点集
         var newPolygon = [];
         var deltaAngle = 360 / (4 * edges);
@@ -775,20 +774,20 @@
             var m = polygon[i][0];
             var n = polygon[i][1];
             var angle;
-            if (n === y) {
+            if (n === center[1]) {
                 angle = 90;
             }
             else {
-                angle = Math.atan(Math.abs(m - x) / Math.abs(n - y)) * 180 / Math.PI;
+                angle = Math.atan(Math.abs(m - center[0]) / Math.abs(n - center[1])) * 180 / Math.PI;
             }
-            if (m > x) {
+            if (m > center[0]) {
                 angle = deltaAngle - angle;
             }
             else {
                 angle = deltaAngle + angle;
             }
             arc = 2 * angle * Math.PI / 180;
-            newPolygon.push(jmaths.rotatePoint(polygon[i], [x, y], arc));
+            newPolygon.push(jmaths.rotatePoint(polygon[i], center, arc));
         }
         //将两个相互对称的端点集旋转相应的角度
         var polygons = [];
@@ -799,8 +798,8 @@
             var rPolygon = [];
             var rNewPolygon = [];
             for (var j = 0; j < polygon.length; j++) {
-                rPolygon.push(jmaths.rotatePoint(polygon[j], [x, y], arc));
-                rNewPolygon.push(jmaths.rotatePoint(newPolygon[j], [x, y], arc));
+                rPolygon.push(jmaths.rotatePoint(polygon[j], center, arc));
+                rNewPolygon.push(jmaths.rotatePoint(newPolygon[j], center, arc));
             }
             polygons.push(rPolygon);
             polygons.push(rNewPolygon);
@@ -877,16 +876,51 @@
     }
     exports.format = format;
     /**
+     * 坐标系转换
+     *
+     * @param {Array} polygon 多边形
+     * @param {Object} fromBase 源坐标信息
+     * @param {Array} fromBase.center 中心坐标
+     * @param {Array} fromBase.radius 中心坐标
+     * @param {Object} toBase 源坐标信息
+     * @param {Array} toBase.center 中心坐标
+     * @param {Array} toBase.radius 中心坐标
+     * @return {Array} 返回转换后的多边形
+     */
+    function coordinateTransformation(polygon, fromBase, toBase) {
+        var result = [];
+        console.log(JSON.stringify(polygon));
+        polygon.forEach(function(item) {
+            var point = item.slice();
+            var t = fromBase.radius / toBase.radius;
+            var d = jmaths.pointToPoint(fromBase.center, item) / t;
+            var a = jmaths.pointToAngle(fromBase.center, item);
+            point[0] = toBase.center[0] + Math.cos(a) * d;
+            point[1] = toBase.center[1] + Math.sin(a) * d;
+            result.push(point);
+        });
+        console.log(JSON.stringify(result));
+        return result;
+    }
+    exports.coordinateTransformation = coordinateTransformation;
+    /**
      * 创建剪纸对象
      *
      * @param {number} edges 边数 4 - 7
-     * @param {number} x 中心 x
-     * @param {number} y 中心 y
-     * @param {number} radius 半径
+     * @param {=Array} center 中心坐标
+     * @param {=number} radius 半径
      * @return {Object} 返回剪纸对象
      */
-    function createPaper(edges, x, y, radius) {
+    function createPaper(edges, center, radius) {
         var instance = {};
+        center = center || [0, 0];
+        radius = radius || 100;
+        instance.getCenter = function() {
+            return center;
+        };
+        instance.getRadius = function() {
+            return radius;
+        };
         /**
          * 作为模型的路径
          */
@@ -901,8 +935,7 @@
         var cutModelPath = [];
         // init
         var _allPolygon =
-            jmaths.regularPolygon(edges * 2, x, y, radius, -Math.PI * 0.5 - Math.PI / edges / 2);
-        var center = [x, y];
+            jmaths.regularPolygon(edges * 2, center[0], center[1], radius, -Math.PI * 0.5 - Math.PI / edges / 2);
         // ======================
         // start           next
         //  +-------------+
@@ -1262,6 +1295,9 @@
      * @param {Object} options 配置项
      * @param {Element|string} options.container 容器，选择器或者元素对象
      * @param {=number} options.edges 边数，3~6，默认 6
+     * @param {=string} options.stroke 描边颜色
+     * @param {=string} options.fill 填充颜色
+     * @param {=string} options.cutStroke 切线描边颜色
      * @param {=Function} options.onchange 用户剪切纸张
      * @return {Object} 返回游戏实例
      */
@@ -1276,14 +1312,18 @@
         var status = 'running'; // stop
         var downPoint;
         var points;
-        var paper = createPaper(edges, 250, 250, 200);
+        var center = [container.clientWidth / 2, container.clientHeight / 2 * 1.8];
+        var radius = Math.min(container.clientWidth, container.clientHeight) * 0.8;
+        var paper = createPaper(edges, center, radius);
         var paperBackgrund = jpaths.create({
             parent: container,
-            stroke: 'red'
+            stroke: options.stroke || 'black',
+            fill: options.fill || 'none'
         });
         var paperHint = jpaths.create({
             parent: container,
-            stroke: 'green'
+            stroke: options.cutStroke || 'green',
+            strokeWidth: 2
         });
         function render() {
             paperBackgrund.attr({
@@ -1301,6 +1341,10 @@
             console.log('getShape()');
             return {
                 edges: edges,
+                base: {
+                    center: center,
+                    radius: radius
+                },
                 polygon: paper.getModelPolygon()
             };
         };
@@ -1413,6 +1457,8 @@
      *
      * @param {Object} options 配置项
      * @param {Element|string} options.container 容器，选择器或者元素对象
+     * @param {=string} options.stroke 描边颜色
+     * @param {=string} options.fill 填充颜色
      * @return {Object} 渲染示例
      */
     function createRender(options) {
@@ -1423,9 +1469,15 @@
         var instance = {};
         var paperBackgrund = jpaths.create({
             parent: container,
-            stroke: 'none',
-            fill: 'blue'
+            stroke: options.stroke || 'none',
+            fill: options.fill || 'yellow'
         });
+        var center = [container.clientWidth / 2, container.clientHeight / 2];
+        var radius = Math.min(container.clientWidth, container.clientHeight) * 0.5;
+        var base = {
+            center: center,
+            radius: radius
+        };
         /**
          * 渲染容器
          *
@@ -1434,7 +1486,8 @@
          * @param {Array} shape.polygon 多边形
          */
         function render(shape) {
-            var polygons = getCutPolygons(shape.edges, 250, 250, shape.polygon);
+            var polygon = coordinateTransformation(shape.polygon, shape.base, base);
+            var polygons = getCutPolygons(shape.edges, center, polygon);
             var path = '';
             polygons.forEach(function(polygon) {
                 path += format('M #{start} L #{lines} Z', {
@@ -1447,11 +1500,16 @@
             });
         }
         instance.render = render;
-        console.log('createRender');
+        var freed;
         /**
          * 释放游戏资源
          */
         instance.free = function() {
+            if (freed) {
+                return;
+            }
+            freed = true;
+            paperBackgrund.free();
             console.log('free');
         };
         return instance;
