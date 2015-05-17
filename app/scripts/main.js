@@ -235,6 +235,25 @@
                     $('.lose').addClass('lose-in');
                 }
 
+                $('#my-paper').empty();
+                $('#pk-paper').empty();
+
+                var p1 = jcuts.createRender({
+                    container: '#my-paper'
+                });
+                p1.render({
+                    "edges":game.levels[0].edges,
+                    "base":game.levels[0].base || {},
+                    "polygon":mydata.levels[0].polygon});
+
+                var p2 = jcuts.createRender({
+                    container: '#pk-paper'
+                });
+                p2.render({
+                    "edges":game.levels[0].edges,
+                    "base":game.levels[0].base || {},
+                    "polygon":pkerdata.levels[0].polygon});
+
                 // results.forEach(function(item){
                 //     var maps = item.maps;
                 //     var user = item.user;
@@ -390,7 +409,9 @@
         
     })();
 
-    game.init();
+    //game.init();
+
+    
 
 })();
 

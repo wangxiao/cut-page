@@ -270,8 +270,10 @@ html,body {
     width:13.73rem;
     height:13.73rem;
     opacity:0.3;
+    /**
     background: url(/images/scaning.png) no-repeat center center;
     background-size: cover;
+    **/
     -webkit-transform-origin:center center;
     -webkit-animation-name:zcircle;
     -webkit-animation-duration:5s;
@@ -546,6 +548,22 @@ html,body {
       background: url(/images/winner.png) no-repeat center center;
       background-size: cover;
     }
+  }
+
+  .my-paper {
+    position: absolute;
+    left:0.2rem;
+    top: 5.3rem;
+    width:2rem;
+    height:2rem;
+  }
+
+  .pk-paper {
+    position: absolute;
+    right:0.2rem;
+    top: 5.3rem;
+    width:2rem;
+    height:2rem;
   }
 
 
