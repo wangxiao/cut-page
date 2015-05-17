@@ -68,31 +68,30 @@ void function() {
                             }, function() {
                                 callback && callback();
                             });
+
+                            rt.on('message', function(data) {
+                                otherData = data.msg.user;
+                                switch(data.msg.status) {
+                                    case 'online':
+                                        room.send({
+                                            status: 'start',
+                                            user: attr
+                                        });
+                                        isStart(otherData);
+                                    break;
+                                    case 'start':
+                                        isStart(otherData);
+                                    break;
+                                    case 'end':
+                                        isEnd(me.attr, otherData);
+                                        status = 2;
+                                    break;
+                                }
+                            });                            
                         } else {
                             alert('服务器的聊天数据被删！');
                         }
                     });
-
-                    rt.on('message', function(data) {
-                        otherData = data.msg.user;
-                        switch(data.msg.status) {
-                            case 'online':
-                                room.send({
-                                    status: 'start',
-                                    user: attr
-                                });
-                                isStart(otherData);
-                            break;
-                            case 'start':
-                                isStart(otherData);
-                            break;
-                            case 'end':
-                                isEnd(me.attr, otherData);
-                                status = 2;
-                            break;
-                        }
-                    });
-
                 });
                 return this;
             },
