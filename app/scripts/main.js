@@ -90,9 +90,9 @@
                         });
 
                         // debug用
-                        setTimeout(function(){
-                            self.showMatchUser({name: 'TEST'})
-                        }, 500)
+                        // setTimeout(function(){
+                        //     self.showMatchUser({name: 'TEST'})
+                        // }, 20500)
                     } else {
                         setTimeout(function(){
                             self.showMatchUser({name: 'TEST'})
@@ -120,7 +120,7 @@
                     container: '#game-container',
                     onchange: function() {
                         var shape = this.getShape();
-                        pager.render(shape);
+                        console.log(shape);
                     }
                 });
             }
