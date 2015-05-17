@@ -96,7 +96,12 @@
 }
 
 
-
+html,body {
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  user-select:none;
+}
 
 .stage {
   z-index:1000;
@@ -108,8 +113,9 @@
   background-size: cover;
   display: none;
 }
+
 .stage-show {
-  z-index:1001;
+  z-index:9991;
   display: block;
 }
 
@@ -241,6 +247,19 @@
     -webkit-animation-iteration-count:infinite;
   }
 
+  .scan-circles {
+    z-index:874;
+    position: absolute;
+    left:50%;
+    bottom:3.7rem;
+    margin-left: -6.86rem;
+    margin-bottom: -6.86rem;
+    width:13.73rem;
+    height:13.73rem;
+    background: url(/images/scan_circle_bg.png) no-repeat center center;
+    background-size: cover;
+  }
+
   .scaning {
     z-index:876;
     position: absolute;
@@ -251,8 +270,10 @@
     width:13.73rem;
     height:13.73rem;
     opacity:0.3;
+    /**
     background: url(/images/scaning.png) no-repeat center center;
     background-size: cover;
+    **/
     -webkit-transform-origin:center center;
     -webkit-animation-name:zcircle;
     -webkit-animation-duration:5s;
@@ -406,7 +427,7 @@
   }
 
   .battle-container {
-    z-index:1999;
+    z-index:99999;
     position: absolute;
     left:.5rem;
     right:.5rem;
@@ -527,6 +548,22 @@
       background: url(/images/winner.png) no-repeat center center;
       background-size: cover;
     }
+  }
+
+  .my-paper {
+    position: absolute;
+    left:0.2rem;
+    top: 5.3rem;
+    width:2rem;
+    height:2rem;
+  }
+
+  .pk-paper {
+    position: absolute;
+    right:0.2rem;
+    top: 5.3rem;
+    width:2rem;
+    height:2rem;
   }
 
 

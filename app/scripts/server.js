@@ -119,7 +119,7 @@ void function() {
 // var p = window.player();
 
 // // 登录游戏，准备开始
-// p.login('aaa', function() {
+// p.login('2222', function() {
 //     console.log('123');
 // });
 
