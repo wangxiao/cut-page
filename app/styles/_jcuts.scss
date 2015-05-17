@@ -1,0 +1,117 @@
+.paper-wrap {
+    position: absolute;
+}
+.fall {
+    -webkit-transform-origin: center top ;
+    -webkit-animation-name: fall ;
+    -webkit-animation-duration: 3s;
+    -webkit-animation-fill-mode: forwards;
+    /*-webkit-animation-timing-function: ease-in;*/
+    -webkit-animation-iteration-count: 1;
+}
+.rotate {
+    -webkit-transform-origin: center top ;
+    -webkit-animation-name: rotateY;
+    -webkit-animation-duration: 0.8s;
+    -webkit-animation-delay: 0.2s;
+    -webkit-animation-fill-mode: forwards;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: 20;
+}
+.rotate-slow {
+    -webkit-transform-origin: center top -10px;
+    -webkit-animation-name: rotateY;
+    -webkit-animation-duration: 2s;
+    -webkit-animation-delay: 0.2s;
+    -webkit-animation-fill-mode: forwards;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: 20;
+}
+.sway3d {
+    -webkit-animation-name: sway3d;
+    -webkit-animation-duration: 3s;
+    -webkit-animation-delay: 0.3s;
+    -webkit-animation-fill-mode: forwards;
+    -webkit-animation-timing-function: ease-in-out;
+    -webkit-animation-iteration-count: 1;
+}
+.sway2d {
+    -webkit-animation-name: sway2d;
+    -webkit-animation-duration: 3s;
+    -webkit-animation-delay: 0.2s;
+    -webkit-animation-fill-mode: forwards;
+    -webkit-animation-timing-function: ease-in-out;
+    -webkit-animation-iteration-count: 5;
+}
+@-webkit-keyframes sway3d {
+    0% {
+        /*-webkit-transform: rotateZ(-15deg) rotateX(55deg); */
+    }
+    30% {
+        -webkit-transform: rotateZ(60deg) rotateX(110deg);
+        -webkit-animation-timing-function: ease-in-out;
+    }
+    60% {
+        -webkit-transform: rotateZ(-50deg) rotateX(70deg);
+        -webkit-animation-timing-function: ease-in-out;
+    }
+    100% {
+        -webkit-transform: rotateZ(60deg) rotateX(110deg);
+        -webkit-animation-timing-function: cubic-bezier(0.990, 0.000, 0.890, 0.435);
+    }
+}
+@-webkit-keyframes sway2d {
+    0% {
+        /*-webkit-transform: rotateZ(-15deg) rotateX(55deg); */
+    }
+    30% {
+        -webkit-transform: translate(10px, 0);
+        -webkit-animation-timing-function: ease-in-out;
+    }
+    60% {
+        -webkit-transform: translate(-20px, 0);
+        -webkit-animation-timing-function: ease-in-out;
+    }
+    100% {
+        -webkit-transform: translate(30px, 0);
+        -webkit-animation-timing-function: cubic-bezier(0.990, 0.000, 0.890, 0.435);
+    }
+}
+@-webkit-keyframes fall {
+    0% {
+        -webkit-transform: translate(0, 0);
+        -webkit-animation-timing-function: ease-out;
+    }
+    5% {
+        -webkit-transform: translate(0, -3px);
+        -webkit-animation-timing-function: ease-in;
+    }
+    60% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 0;
+    }
+    100% {
+        -webkit-transform: translate(0, 700px);
+        -webkit-animation-timing-function: ease-in;
+        opacity: 0;
+    }
+}
+@-webkit-keyframes rotateY {
+    0% {
+        -webkit-transform: rotateY(0deg);
+    }
+    25% {
+        -webkit-transform: rotateY(360deg) rotateX(10deg);
+    }
+    50% {
+        -webkit-transform: rotateY(720deg) rotateX(-10deg);
+    }
+    75% {
+        -webkit-transform: rotateY(1080deg) rotateX(10deg);
+    }
+    100% {
+        -webkit-transform: rotateY(1440deg) rotateX(-10deg);;
+    }
+}
