@@ -401,7 +401,7 @@
   }
 
   .battle-container {
-    z-index:900;
+    z-index:1999;
     position: absolute;
     left:.5rem;
     right:.5rem;
@@ -419,6 +419,7 @@
     line-height:.6rem;
     font-size:.4rem;
     text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+    opacity:0;
 
     b {
       line-height:.10rem;

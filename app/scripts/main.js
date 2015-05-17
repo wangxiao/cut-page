@@ -27,8 +27,10 @@
                 if(stage.hasClass('stage-show')) {
                     return;
                 }
-                $('.stage-show').addClass('stage-out').remove('stage-show');
-                $('.stage-' + stageName ).addClass('stage-show').remove('stage-out');
+                $('.stage-show').addClass('stage-out').removeClass('stage-show');
+                $('.stage-' + stageName ).addClass('stage-show').removeClass('stage-out');
+
+                $('body').trigger('stage.change', stageName);
             }
         }
     })();
@@ -59,11 +61,20 @@
                         self._checkMatchUser();
                     }, 2000);
                 });
+
+
+                $('body').on('stage.change', function(e, stage){
+                    switch(stage) {
+                        case "battle":
+                            game.initGame();
+                        break;
+                    }
+                });
             },
 
             _checkMatchUser: function(){
                 var self = this;
-
+                console.log("_checkMatchUser");
                 function _getOnlineUser(){
                     self.playsocket.off && self.playsocket.off('start');
 
@@ -71,11 +82,17 @@
                     });
 
                     if(typeof self.playsocket.on == 'function') {
+                        console.log('self.playsocket.on start');
                         self.playsocket.on('start', function(e, data){
                             var maps = data.maps;
                             var user = data.user;
                             self.showMatchUser(user);
                         });
+
+                        // debug用
+                        setTimeout(function(){
+                            self.showMatchUser({name: 'TEST'})
+                        }, 500)
                     } else {
                         setTimeout(function(){
                             self.showMatchUser({name: 'TEST'})
@@ -95,6 +112,17 @@
                 setTimeout(function(){
                     stage.switchTo('battle');
                 }, 1200)
+            },
+
+            initGame: function(){
+                 var game = jcuts.createGame({
+                    edges: 5,
+                    container: '#game-container',
+                    onchange: function() {
+                        var shape = this.getShape();
+                        pager.render(shape);
+                    }
+                });
             }
         }
     })();
