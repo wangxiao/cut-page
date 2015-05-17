@@ -67,6 +67,8 @@
 
                     self.game = jcuts.createGame({
                         edges: self.shape.edges,
+                        fill:'#ffffff',
+                        stroke: 'none',
                         container: '#game-container',
                         onchange: function() {
                             var shape = this.getShape();
@@ -178,7 +180,7 @@
                             var maps = data.maps;
                             var user = data.user;
                             console.log(maps, user);
-                            self.levels = [{"edges":5,"polygon":[[238.42141923067115,214.36479258238256],[216.90105608615227,148.13192521846366],[238,120],[251,104],[262,92],[270,82],[273,79],[275,77],[273,77],[259,69],[236.8928721783263,59.788696740969286],[311.8033988749895,59.7886967409693],[301.91164764499814,90.23237665534683],[275,119],[263,134],[255,142],[245,154],[244,154],[244,155],[243,155],[243,157],[244,157],[247,160],[250,166],[255,172],[260,181],[267,196],[267.26195218355235,196.87317394517453],[259.08713459029286,222.03267547135982],[243,216]]}] || maps;
+                            self.levels = [{"edges":6,"base":{"center":[250,450],"radius":400},"polygon":[[151.0132645212032,63.6296694843727],[146.47238195899175,63.6296694843727],[250,450],[305.04704990042353,244.56161296484032],[284,217],[220,141],[182,97]]}] || maps;
                             self.showMatchUser(user);
                         });
 
@@ -193,18 +195,27 @@
                             var mydata = results[0];
                             var pkerdata = results[1];
 
-                            $('.left').html(mydata.name);
-                            $('.right').html(pkerdata.name);
+                            $('.left').removeClass('winner').html(mydata.name);
+                            $('.right').removeClass('winner').html(pkerdata.name);
 
                             var myscores = 0;
-                            mydata.levels.forEach(function(level){
+                            pkerdata.levels && mydata.levels.forEach(function(level){
                                 myscores += level.score;
                             })
 
                             var pkerscore = 0;
-                            pkerdata.levels.forEach(function(level){
+                            pkerdata.levels && pkerdata.levels.forEach(function(level){
                                 pkerscore += level.score;
-                            })
+                            });
+
+                            if(myscores > pkerscore) {
+                                $('.left').addClass('winner');
+                                $('.win').addClass('win-in');
+                            } 
+                            if(myscores < pkerscore) {
+                                $('.right').addClass('winner');
+                                $('.lose').addClass('lose-in');
+                            }
 
                             // results.forEach(function(item){
                             //     var maps = item.maps;
@@ -236,6 +247,8 @@
                 $('.pking').addClass('scalein-lazy');
                 $('.vsfinding').addClass('scaleout');
 
+                $('.pkuser-name').html(user.name);
+
                 //留时间给效果展示
                 setTimeout(function(){
                     stage.switchTo('battle');
@@ -250,7 +263,7 @@
                 function _initLevel(){
                     level.init(levels[_currentLevel], {
                         observeTime: 3,
-                        playTime: 5
+                        playTime: 30
                     });
                 }
 
