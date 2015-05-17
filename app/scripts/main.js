@@ -59,11 +59,11 @@
 
                     setTimeout(function(){
                         var paper = jcuts.createRender({
-                            container: '#game-container'
+                            container: '#preview-container'
                         });
                         paper.render(shape);
                         self.paper = paper;
-                        self.initCountDownTip(2);
+                        self.initCountDownTip(options.observeTime);
 
                         $('.ready').css({
                             display: 'none'
@@ -77,7 +77,7 @@
                     var self = this;
                     var options = self.options;
 
-                    self.paper.free();
+                    //self.paper.free();
 
                     self.game = jcuts.createGame({
                         edges: self.shape.edges,
@@ -94,7 +94,9 @@
 
                     setTimeout(function(){
                         $('.action-tip').removeClass('tip-show').addClass('tip-hide');
-                    }, 3000)
+                    }, 3000);
+
+                    self._playCountdown(options.playTime);
 
                     setTimeout(function(){
                         self.end();
@@ -106,15 +108,16 @@
                     var options = self.options;
 
                     var shape = self.game.getShape();
-                    var score = jcuts.diffPolygon(self.shape.polygon, shape);
+                    var score = jcuts.diffShape?jcuts.diffShape(self.shape, shape):Math.random();
+
                     self.game.free();
-                    self.paper = jcuts.createRender({
+                    self.paper2 = jcuts.createRender({
                         container: '#game-container'
                     });
-                    self.paper.render(shape);
+                    self.paper2.render(shape);
 
                     setTimeout(function(){
-                        $('body').trigger('level.end', {score: Math.random() || score, shape: shape});
+                        $('body').trigger('level.end', {score: score, shape: shape});
                     }, 3000);
                 },
                 initCountDownTip: function(count){
@@ -126,7 +129,7 @@
                     $('.action-tip').removeClass('tip-hide').addClass('tip-show');
                     function _countdown(){
 
-                        $('.action-tip').html('<b>'+count+'</b><br />观察图案'+ options.observeTime +'秒钟并记住他');
+                        $('.action-tip').html('<b>'+count+'</b><br />剪出右下角图案，'+options.observeTime+'秒观察时间');
                         count--;
 
                         if(count < 0) {
@@ -139,6 +142,27 @@
                         }
                     }
                     _countdown();
+                },
+
+                _playCountdown: function(count){
+                    var self  = this;
+                    var options = self.options;
+
+
+
+                    count = count || 10;
+                    $('.getted-scores').css('height', (count/options.playTime*100) + '%');
+                    function _countdown(){
+                        $('.getted-scores').css('height', (count/options.playTime*100) + '%');
+                        if(count > 0 ) {
+                            setTimeout(function(){
+                                count--;
+                                _countdown();
+                            }, 1000)
+                        }
+                    }
+                    _countdown();
+                    
                 }
             }
         })();
@@ -170,7 +194,7 @@
             },
             _initEvents: function(){
                 var self = this;
-                $('body').on('click', '.start-btn', function(){
+                $('body').on('touchstart', '.start-btn', function(){
                     var nickname = $('.nickname').val();
 
                     if(/^(\s)?$/.test(nickname)) {
@@ -187,7 +211,7 @@
                     }, 10);
                 });
 
-                $('body').on('click', '.play-again', function(){
+                $('body').on('touchstart', '.play-again', function(){
                     game.reset();
                 });
 
@@ -280,8 +304,13 @@
                             debuguser && clearTimeout(debuguser);
                             var maps = data.maps;
                             var user = data.user;
+                            console.log(maps, user);
+                            if(maps[0] && maps[0].edges) {
+                                self.levels = maps;
+                            } else {
+                                self.levels = [{"edges":6,"base":{"center":[250,450],"radius":400},"polygon":[[151.0132645212032,63.6296694843727],[146.47238195899175,63.6296694843727],[250,450],[305.04704990042353,244.56161296484032],[284,217],[220,141],[182,97]]}]
+                            }
 
-                            self.levels = [{"edges":6,"base":{"center":[250,450],"radius":400},"polygon":[[151.0132645212032,63.6296694843727],[146.47238195899175,63.6296694843727],[250,450],[305.04704990042353,244.56161296484032],[284,217],[220,141],[182,97]]}] || maps;
                             self.showMatchUser(user);
                         });
 
@@ -295,7 +324,7 @@
                         var debuguser = setTimeout(function(){
                             self.levels = [{"edges":6,"base":{"center":[250,450],"radius":400},"polygon":[[151.0132645212032,63.6296694843727],[146.47238195899175,63.6296694843727],[250,450],[305.04704990042353,244.56161296484032],[284,217],[220,141],[182,97]]}];
                             self.showMatchUser({name: '机器人A', debug: true})
-                        }, 10000)
+                        }, 4000)
                     } else {
                         setTimeout(function(){
                             self.showMatchUser({name: 'TEST'})
@@ -327,8 +356,8 @@
                 var _currentLevel = 0;
                 function _initLevel(){
                     level.init(levels[_currentLevel], {
-                        observeTime: 3,
-                        playTime: 30
+                        // observeTime: 10,
+                        // playTime: 10
                     });
                 }
 

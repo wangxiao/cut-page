@@ -435,6 +435,15 @@ html,body {
     top:2.4rem;
   }
 
+  .preview-container {
+    z-index:99990;
+    position: absolute;
+    right:.5rem;
+    bottom:.5rem;
+    width:2rem;
+    height:2rem;
+  }
+
   .action-tip {
     pointer-events: none;
     text-align:center;
@@ -488,7 +497,8 @@ html,body {
       background:#8ada24;
       border-radius:.3rem;
       height:0%;
-      box-shadow: 0 0 5px rgba(0,0,0,0.6)
+      box-shadow: 0 0 5px rgba(0,0,0,0.6);
+      -webkit-transition:all 1s linear;
     }
   }
 }
