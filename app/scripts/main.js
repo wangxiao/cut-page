@@ -93,13 +93,14 @@
 
                     var shape = self.game.getShape();
                     var score = jcuts.diffPolygon(self.shape.polygon, shape);
+                    self.game.free();
                     self.paper = jcuts.createRender({
                         container: '#game-container'
                     });
                     self.paper.render(shape);
 
                     setTimeout(function(){
-                        $('body').trigger('level.end', {score: score, shape: shape});
+                        $('body').trigger('level.end', {score: Math.random() || score, shape: shape});
                     }, 3000);
                 },
                 initCountDownTip: function(count){
@@ -135,6 +136,11 @@
                 stage.switchTo('login');
                 this._initEvents();
             },
+
+            reset: function(){
+                stage.switchTo('scaning');
+                self._checkMatchUser();
+            },
             _initEvents: function(){
                 var self = this;
                 $('body').on('click', '.start-btn', function(){
@@ -155,6 +161,10 @@
                     }, 2000);
                 });
 
+                $('body').on('click', '.play-again', function(){
+                    game.reset();
+                });
+
 
                 $('body').on('stage.change', function(e, stage){
                     switch(stage) {
@@ -163,6 +173,51 @@
                         break;
                     }
                 });
+            },
+
+            _handleResult: function(data){
+                stage.switchTo('result');
+
+                var results = data.results;
+
+                var mydata = results[0];
+                var pkerdata = results[1];
+
+                $('.left').removeClass('winner').html(mydata.name);
+                $('.right').removeClass('winner').html(pkerdata.name);
+
+                console.log(mydata, pkerdata);
+
+                var myscores = 0;
+                mydata.levels && mydata.levels.forEach(function(level){
+                    myscores += level.score;
+                })
+
+                var pkerscore = 0;
+                pkerdata.levels && pkerdata.levels.forEach(function(level){
+                    pkerscore += level.score;
+                });
+
+                console.log(myscores, pkerscore);
+
+                if(myscores > pkerscore) {
+                    $('.left').addClass('winner');
+                    $('.win').addClass('win-in');
+                } 
+                if(myscores < pkerscore) {
+                    $('.right').addClass('winner');
+                    $('.lose').addClass('lose-in');
+                }
+
+                // results.forEach(function(item){
+                //     var maps = item.maps;
+                //     var user = item.user;
+
+                //     var score = user.score;
+                //     var shape = user.shape;
+
+                //     console.log(maps, score, user. shape);
+                // }); 
             },
 
             _checkMatchUser: function(){
@@ -177,6 +232,7 @@
                     if(typeof self.playsocket.on == 'function') {
                         console.log('self.playsocket.on start');
                         self.playsocket.on('start', function(e, data){
+                            debuguser && clearTimeout(debuguser);
                             var maps = data.maps;
                             var user = data.user;
                             console.log(maps, user);
@@ -187,51 +243,14 @@
 
                         self.playsocket.on('end', function(e, data){
 
-                            stage.switchTo('result');
-
-                            var results = data.results;
-                            console.log(arguments);
-
-                            var mydata = results[0];
-                            var pkerdata = results[1];
-
-                            $('.left').removeClass('winner').html(mydata.name);
-                            $('.right').removeClass('winner').html(pkerdata.name);
-
-                            var myscores = 0;
-                            pkerdata.levels && mydata.levels.forEach(function(level){
-                                myscores += level.score;
-                            })
-
-                            var pkerscore = 0;
-                            pkerdata.levels && pkerdata.levels.forEach(function(level){
-                                pkerscore += level.score;
-                            });
-
-                            if(myscores > pkerscore) {
-                                $('.left').addClass('winner');
-                                $('.win').addClass('win-in');
-                            } 
-                            if(myscores < pkerscore) {
-                                $('.right').addClass('winner');
-                                $('.lose').addClass('lose-in');
-                            }
-
-                            // results.forEach(function(item){
-                            //     var maps = item.maps;
-                            //     var user = item.user;
-
-                            //     var score = user.score;
-                            //     var shape = user.shape;
-
-                            //     console.log(maps, score, user. shape);
-                            // }); 
+                            game._handleResult(data)
                         });
 
                         //debug用
-                        // setTimeout(function(){
-                        //     self.showMatchUser({name: 'TEST'})
-                        // }, 200)
+                        var debuguser = setTimeout(function(){
+                            self.levels = [{"edges":6,"base":{"center":[250,450],"radius":400},"polygon":[[151.0132645212032,63.6296694843727],[146.47238195899175,63.6296694843727],[250,450],[305.04704990042353,244.56161296484032],[284,217],[220,141],[182,97]]}];
+                            self.showMatchUser({name: '机器人A', debug: true})
+                        }, 10000)
                     } else {
                         setTimeout(function(){
                             self.showMatchUser({name: 'TEST'})
@@ -242,6 +261,7 @@
             },
 
             showMatchUser: function(user){
+                self.pkuer = user;
                 console.log('showMatchUser');
                 $('.pkuser-avatar').addClass('scalein');
                 $('.pking').addClass('scalein-lazy');
@@ -263,7 +283,7 @@
                 function _initLevel(){
                     level.init(levels[_currentLevel], {
                         observeTime: 3,
-                        playTime: 30
+                        playTime: 6
                     });
                 }
 
@@ -277,7 +297,31 @@
                     if(_currentLevel < levels.length) {
                         _initLevel();
                     } else {
-                        game.playsocket.end({levels:levelResult});
+                        if(self.pkuer.debug) {
+                            var pkresults = levelResult.map(function(item){
+                                var newitem = $.extend({}, item, {
+                                    score: Math.random()
+                                });
+                                return newitem;
+                            });
+
+                            game._handleResult({
+                                results: [
+                                    {
+                                        levels:levelResult,
+                                        name: game.nickname
+                                    },
+
+                                    {
+                                        levels:pkresults,
+                                        name: self.pkuer.name
+                                    }
+                                ]
+                            })
+                        } else {
+                            game.playsocket.end({levels:levelResult});
+                        }
+                        
                         
                     }
                 });
@@ -290,6 +334,6 @@
     })();
 
     game.init();
-
+    
 })();
 
