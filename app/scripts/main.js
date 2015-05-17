@@ -1,6 +1,6 @@
 (function(){
 
-    
+
 
 
     // setTimeout(function(){
@@ -18,7 +18,7 @@
     //         }, 1200)
     //     })
     // }, 2000)
-    
+
     var stage = (function(){
 
         return {
@@ -120,7 +120,7 @@
                     container: '#game-container',
                     onchange: function() {
                         var shape = this.getShape();
-                        pager.render(shape);
+                        // pager.render(shape);
                     }
                 });
             }
@@ -128,6 +128,6 @@
     })();
 
     game.init();
-    
+
 })();
 
