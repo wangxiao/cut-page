@@ -528,4 +528,60 @@
       background-size: cover;
     }
   }
+
+
+  .play-again {
+    z-index:902;
+    position: absolute;
+    left:50%;
+    bottom:1.5rem;
+    width:4.65rem;
+    height:.92rem;
+    margin-left: -2.32rem;
+    background: url(/images/playagain.png) no-repeat center center;
+    background-size: cover;
+  }
+
+  .win {
+    z-index:902;
+    position: absolute;
+    left:50%;
+    top:1.52rem;
+    width:2.69rem;
+    height:1.07rem;
+    margin-left: -1.34rem;
+    background: url(/images/win.png) no-repeat center center;
+    background-size: cover;
+    opacity: 0;
+  }
+
+  .lose {
+    pointer-events: none;
+    z-index:902;
+    position: absolute;
+    left:50%;
+    top:1.52rem;
+    width:2.69rem;
+    height:.98rem;
+    margin-left: -1.34rem;
+    background: url(/images/lose.png) no-repeat center center;
+    background-size: cover;
+    opacity: 0;
+  }
+
+  .win-in {
+    -webkit-transform-origin:center center;
+    -webkit-animation-name:scalein;
+    -webkit-animation-duration:0.6s;
+    -webkit-animation-delay:0;
+    -webkit-animation-fill-mode: forwards;
+  }
+
+  .lose-in {
+    -webkit-transform-origin:center center;
+    -webkit-animation-name:scalein;
+    -webkit-animation-duration:0.6s;
+    -webkit-animation-delay:0;
+    -webkit-animation-fill-mode: forwards;
+  }
 }
