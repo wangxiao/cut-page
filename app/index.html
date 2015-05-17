@@ -19,30 +19,32 @@
   </head>
   <body>
 
-    <div class="stage stage-login">
+    <div class="stage stage-login stage-show">
         <div class="hill"></div>
         <div class="cloud"></div>
         <div class="cut"></div>
         <div class="logo"></div>
-        <div class="nick-bg"><input type="text" class="nickname" placeholder="输入昵称" /></div>
+        <div class="nick-bg"><input type="text" class="nickname" placeholder="输入昵称" value="随机用户" /></div>
         <a href="#" class="start-btn"></a>
     </div>
     <div class="stage stage-scaning">
-      <div class="avatar">Rayi</div>
+      <div class="avatar user-nickname">Rayi</div>
       <div class="circle-light"></div>
       <div class="scaning"></div>
       <div class="vsfinding"></div>
       <div class="pking"></div>
       <div class="pkuser-avatar">Zswang</div>
     </div>
-    <div class="stage stage-battle stage-show">
+    <div class="stage stage-battle">
       <div class="battle-header">
-        <div class="you">Rayi</div>
+        <div class="you user-nickname">Rayi</div>
         <div class="he">Zswang</div>
       </div>
       <div class="ready ready-out"></div>
       <div class="go go-out"></div>
       <div class="battle-container" id="btcontainer"></div>
+      <div class="action-tip"><b>10</b><br />观察图案10秒钟并记住他</div>
+      <div class="scores my-scores"><div class="getted-scores"></div></div>
     </div>
 
     <!-- build:js scripts/vendor.js -->
