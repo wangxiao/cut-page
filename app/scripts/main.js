@@ -154,6 +154,18 @@
             reset: function(){
                 var self = this;
                 stage.switchTo('scaning');
+
+                self.pkuer = null;
+
+                $('.pkuser-avatar').removeClass('scalein');
+                $('.pking').removeClass('scalein-lazy');
+                $('.vsfinding').removeClass('scaleout');
+
+                $('.win').removeClass('win-in');
+                $('.lose').removeClass('lose-in');
+
+                $('.pkuser-name').html('');
+
                 game._checkMatchUser();
             },
             _initEvents: function(){
@@ -172,7 +184,7 @@
 
                     setTimeout(function(){
                         game._checkMatchUser();
-                    }, 2000);
+                    }, 10);
                 });
 
                 $('body').on('click', '.play-again', function(){
@@ -249,14 +261,14 @@
                             debuguser && clearTimeout(debuguser);
                             var maps = data.maps;
                             var user = data.user;
-                            console.log(maps, user);
+
                             self.levels = [{"edges":6,"base":{"center":[250,450],"radius":400},"polygon":[[151.0132645212032,63.6296694843727],[146.47238195899175,63.6296694843727],[250,450],[305.04704990042353,244.56161296484032],[284,217],[220,141],[182,97]]}] || maps;
                             self.showMatchUser(user);
                         });
 
 
                         self.playsocket.on('end', function(e, data){
-
+                            game.endtimer && clearTimeout(game.endtimer);
                             game._handleResult(data)
                         });
 
@@ -286,7 +298,7 @@
                 //留时间给效果展示
                 setTimeout(function(){
                     stage.switchTo('battle');
-                }, 1200)
+                }, 2200)
             },
 
             initGame: function(){
@@ -297,11 +309,13 @@
                 function _initLevel(){
                     level.init(levels[_currentLevel], {
                         observeTime: 3,
-                        playTime: 30
+                        playTime: 10
                     });
                 }
 
                 var levelResult = [];
+
+                $('#game-container').empty();
 
                 $('body').on('level.end', function(e, levelData){
 
@@ -334,6 +348,35 @@
                             })
                         } else {
                             game.playsocket.end({levels:levelResult});
+
+                            $('body').on('game.end',function(e, data){
+                                game.endtimer = setTimeout(function(){
+                                    var levels = data.levels;
+                                    var pkresults = levels.map(function(item){
+                                        var newitem = $.extend({}, item, {
+                                            score: Math.random()
+                                        });
+                                        return newitem;
+                                    });
+
+                                    game._handleResult({
+                                        results: [
+                                            {
+                                                levels:levels,
+                                                name: game.nickname
+                                            },
+
+                                            {
+                                                levels:pkresults,
+                                                name: self.pkuer.name
+                                            }
+                                        ]
+                                    })
+                                }, 6000);
+
+                            });
+
+                            $('body').trigger('game.end',{levels:levelResult});
                         }
                         
                         
