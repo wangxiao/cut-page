@@ -1210,6 +1210,20 @@
             }
             var i;
             var j;
+            // 稀释路径
+            if (polygon.length >= 3) {
+                var tempPolygon = [polygon[0]];
+                for (i = 1; i < polygon.length - 1; i++) {
+                    var a = polygon[i - 1];
+                    var b = polygon[i];
+                    var c = polygon[i + 1];
+                    if (jmaths.pointToLine(b, a, c) > 0.27) {
+                        tempPolygon.push(b);
+                    }
+                }
+                tempPolygon.push(polygon[polygon.length - 1]);
+                polygon = tempPolygon;
+            }
             // 自身不要碰撞
             for (i = 1; i < polygon.length - 2; i++) {
                 var lineA = [polygon[i - 1], polygon[i]];
@@ -1349,11 +1363,8 @@
                 return;
             }
             var movePoint = e.type === 'mousemove' ?
-                [e.layerX, e.layerY] :
-                [
-                    e.targetTouches[0].pageX - canvas.offsetLeft,
-                    e.targetTouches[0].pageY - canvas.offsetTop
-                ];
+                [e.pageX - this.offsetLeft, e.pageY - this.offsetTop] :
+                [e.targetTouches[0].pageX - this.offsetLeft, e.targetTouches[0].pageY - this.offsetTop];
             points.push(movePoint);
             paperHint.attr({
                 path: jcuts.format('M #{from} L #{lines}', {
@@ -1367,8 +1378,8 @@
                 return;
             }
             downPoint = e.type === 'mousedown' ?
-                [e.layerX, e.layerY] :
-                [e.targetTouches[0].pageX - canvas.offsetLeft, e.targetTouches[0].pageY - canvas.offsetTop];
+                [e.pageX - this.offsetLeft, e.pageY - this.offsetTop] :
+                [e.targetTouches[0].pageX - this.offsetLeft, e.targetTouches[0].pageY - this.offsetTop];
             points = [downPoint];
         }
         function mouseUpHandler() {

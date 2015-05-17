@@ -1,6 +1,6 @@
 (function(){
 
-    
+
 
 
     // setTimeout(function(){
@@ -18,7 +18,7 @@
     //         }, 1200)
     //     })
     // }, 2000)
-    
+
     var stage = (function(){
 
         return {
@@ -277,6 +277,6 @@
     })();
 
     game.init();
-    
+
 })();
 
