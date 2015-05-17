@@ -26,7 +26,10 @@ void function() {
         function isEnd(myData, otherData) {
             if (status === 2) {
                 eventCenter.trigger('end', {
-                    results: [myData, otherData]
+                    results: [
+                        myData, 
+                        otherData
+                    ]
                 });
                 status = 0;
             }
