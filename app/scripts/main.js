@@ -41,8 +41,8 @@
                 init: function(shape, options){
                     var self = this;
                     self.options = $.extend({
-                        observeTime: 10,
-                        playTime: 20,
+                        observeTime: 3,
+                        playTime: 10,
                     }, options|| {});
 
                     self.shape = shape;
@@ -63,7 +63,7 @@
                         });
                         paper.render(shape);
                         self.paper = paper;
-                        self.initCountDownTip(options.observeTime);
+                        self.initCountDownTip(self.options.observeTime);
 
                         $('.ready').css({
                             display: 'none'
@@ -108,6 +108,7 @@
                     var options = self.options;
 
                     var shape = self.game.getShape();
+
                     var score = jcuts.diffShape?jcuts.diffShape(self.shape, shape):Math.random();
 
                     self.game.free();
@@ -236,7 +237,7 @@
                 $('.left').removeClass('winner').html(mydata.name);
                 $('.right').removeClass('winner').html(pkerdata.name);
 
-                console.log(mydata, pkerdata);
+                
 
                 var myscores = 0;
                 mydata.levels && mydata.levels.forEach(function(level){
@@ -262,21 +263,21 @@
                 $('#my-paper').empty();
                 $('#pk-paper').empty();
 
+                var d = mydata.levels?mydata.levels[0].shape:game.levels[0];
+
+
+                var d2 = pkerdata.levels?pkerdata.levels[0].shape:game.levels[0];
+
+                console.log(d, d2);
                 var p1 = jcuts.createRender({
                     container: '#my-paper'
                 });
-                p1.render({
-                    "edges":game.levels[0].edges,
-                    "base":game.levels[0].base || {},
-                    "polygon":mydata.levels[0].polygon});
+                p1.render(d);
 
                 var p2 = jcuts.createRender({
                     container: '#pk-paper'
                 });
-                p2.render({
-                    "edges":game.levels[0].edges,
-                    "base":game.levels[0].base || {},
-                    "polygon":pkerdata.levels[0].polygon});
+                p2.render(d2);
 
                 // results.forEach(function(item){
                 //     var maps = item.maps;
@@ -305,7 +306,7 @@
                             var maps = data.maps;
                             var user = data.user;
                             console.log(maps, user);
-                            if(maps[0] && maps[0].edges) {
+                            if(maps && maps[0] && maps[0].edges) {
                                 self.levels = maps;
                             } else {
                                 self.levels = [{"edges":6,"base":{"center":[250,450],"radius":400},"polygon":[[151.0132645212032,63.6296694843727],[146.47238195899175,63.6296694843727],[250,450],[305.04704990042353,244.56161296484032],[284,217],[220,141],[182,97]]}]
