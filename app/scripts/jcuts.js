@@ -757,6 +757,23 @@
     }
     exports.diffPolygon = diffPolygon;
     /**
+     * 比较两个图形的相似度
+     *
+     * @param {Object} a 图形 1 // [[1, 2], [3, 4], [4, 5]]
+     * @param {Object} b 图形 2 // [[1, 2], [3, 4], [4, 7]]
+     * @return {number} 返回两个多边形的相似度，范围：0~1，为 1 表示完全相等
+     */
+    function diffShape(a, b) {
+        if (a.radius > b.radius) {
+            var t = a;
+            a = b;
+            b = t;
+        }
+        return diffPolygon(a.polygon,
+            coordinateTransformation(b.polygon, a.base, b.base));
+    }
+    exports.diffShape = diffShape;
+    /**
      * 获得完整剪纸的多边形
      *
      * @param {Array} polygon 基础多边线 // [[x, y], [x1, y1], ...]

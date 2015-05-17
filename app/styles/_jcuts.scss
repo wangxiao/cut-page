@@ -1,11 +1,10 @@
 .paper-wrap {
     position: absolute;
-    z-index: 99999;
 }
 .fall {
     -webkit-transform-origin: center top ;
-    -webkit-animation-name: fall ;
-    -webkit-animation-duration: 3s;
+    -webkit-animation-name: fall;
+    -webkit-animation-duration: 2s;
     -webkit-animation-fill-mode: forwards;
     /*-webkit-animation-timing-function: ease-in;*/
     -webkit-animation-iteration-count: 1;
@@ -30,7 +29,7 @@
 }
 .sway3d {
     -webkit-animation-name: sway3d;
-    -webkit-animation-duration: 3s;
+    -webkit-animation-duration: 2s;
     -webkit-animation-delay: 0.3s;
     -webkit-animation-fill-mode: forwards;
     -webkit-animation-timing-function: ease-in-out;
@@ -38,7 +37,7 @@
 }
 .sway2d {
     -webkit-animation-name: sway2d;
-    -webkit-animation-duration: 3s;
+    -webkit-animation-duration: 2s;
     -webkit-animation-delay: 0.2s;
     -webkit-animation-fill-mode: forwards;
     -webkit-animation-timing-function: ease-in-out;
