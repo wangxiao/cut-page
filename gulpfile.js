@@ -50,11 +50,11 @@ gulp.task('images', function () {
 });
 
 gulp.task('replace-images-path', function() {
-  return gulp.src('dist/styles/*.css').
-    pipe(urlAdjuster({
-      replace:  ['/images/','../images/'],
+  return gulp.src('dist/styles/main.css')
+    .pipe(urlAdjuster({
+      replace:  ['/images/', '../images/'],
     }))
-    .pipe(gulp.dest('dist/main.css'));
+    .pipe(gulp.dest('dist/styles/'));
 });
 
 gulp.task('fonts', function () {
@@ -128,10 +128,9 @@ gulp.task('watch', ['connect'], function () {
 });
 
 gulp.task('build', ['html', 'images', 'fonts', 'extras'], function () {
-  return gulp.task('replace-images-path', function() {
-    return gulp.src('dist/**/*')
-          .pipe($.size({title: 'build', gzip: true}));
-  });
+  gulp.start('replace-images-path');
+  return gulp.src('dist/**/*')
+        .pipe($.size({title: 'build', gzip: true}));
 });
 
 gulp.task('default', ['clean'], function () {
