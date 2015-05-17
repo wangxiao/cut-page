@@ -409,7 +409,7 @@
         
     })();
 
-    //game.init();
+    game.init();
 
     
 
