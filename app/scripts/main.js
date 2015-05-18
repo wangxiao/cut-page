@@ -1,8 +1,5 @@
 (function(){
 
-
-
-
     // setTimeout(function(){
     //     p.match(function(matchUser){
     //         console.log(matchUser);
@@ -42,7 +39,7 @@
                     var self = this;
                     self.options = $.extend({
                         observeTime: 3,
-                        playTime: 10,
+                        playTime: 20,
                     }, options|| {});
 
                     self.shape = shape;
@@ -174,35 +171,38 @@
             init: function(){
                 stage.switchTo('login');
                 this._initEvents();
+                var nickname = localStorage.getItem('nickname');
+                $('.nickname').val(nickname);
             },
 
             reset: function(){
-                var self = this;
-                stage.switchTo('scaning');
+                location.reload();
+                // var self = this;
+                // stage.switchTo('scaning');
 
-                self.pkuer = null;
+                // self.pkuer = null;
 
-                $('.pkuser-avatar').removeClass('scalein');
-                $('.pking').removeClass('scalein-lazy');
-                $('.vsfinding').removeClass('scaleout');
+                // $('.pkuser-avatar').removeClass('scalein');
+                // $('.pking').removeClass('scalein-lazy');
+                // $('.vsfinding').removeClass('scaleout');
 
-                $('.win').removeClass('win-in');
-                $('.lose').removeClass('lose-in');
+                // $('.win').removeClass('win-in');
+                // $('.lose').removeClass('lose-in');
 
-                $('.pkuser-name').html('');
+                // $('.pkuser-name').html('');
 
-                game._checkMatchUser();
+                // game._checkMatchUser();
             },
             _initEvents: function(){
                 var self = this;
                 $('body').on('touchstart', '.start-btn', function(){
-                    var nickname = $('.nickname').val();
+                    var nickname = $('.nickname').val() || localStorage.getItem('nickname');
 
                     if(/^(\s)?$/.test(nickname)) {
                         nickname = 'U' + Math.floor(Math.random()*1000%61);
                     }
-                    console.log('nickname', nickname);
                     self.nickname = nickname;
+                    localStorage.setItem('nickname', nickname);
                     self.playsocket = player();
                     $('.user-nickname').html(nickname);
                     stage.switchTo('scaning');
