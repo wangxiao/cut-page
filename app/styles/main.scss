@@ -105,8 +105,10 @@ html,body {
 
 .stage {
   z-index:1000;
-  position: absolute;
+  position: relative;
   width:100%;
+  max-width: 1000px;
+  margin: 0px auto;
   height:100%;
   overflow:hidden;
   background:url(/images/stage_bg.png) no-repeat center bottom;

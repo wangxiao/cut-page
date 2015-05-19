@@ -195,7 +195,7 @@
             },
             _initEvents: function(){
                 var self = this;
-                $('body').on('touchstart', '.start-btn', function(){
+                $('body').on('touchstart click', '.start-btn', function(){
                     var nickname = $('.nickname').val() || localStorage.getItem('nickname');
 
                     if(/^(\s)?$/.test(nickname)) {
@@ -212,7 +212,7 @@
                     }, 10);
                 });
 
-                $('body').on('touchstart', '.play-again', function(){
+                $('body').on('touchstart click', '.play-again', function(){
                     game.reset();
                 });
 
